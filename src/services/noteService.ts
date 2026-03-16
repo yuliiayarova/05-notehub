@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Note } from "../types/note";
+import type { Note, NoteTag } from "../types/note";
 
 const API_KEY = import.meta.env.VITE_NOTEHUB_TOKEN;
 const ENDPOINT = "/notes";
@@ -27,7 +27,7 @@ interface FetchNotesResponse {
 interface CreateNoteBody {
   title: string;
   content: string;
-  tag: string;
+  tag: NoteTag;
 }
 
 export async function fetchNotes(
@@ -44,7 +44,7 @@ export async function createNote(body: CreateNoteBody): Promise<Note> {
   return response.data;
 }
 
-export async function deleteNote(id: string): Promise<Note> {
+export async function deleteNote(id: Note["id"]): Promise<Note> {
   const response = await apiClient.delete<Note>(`${ENDPOINT}/${id}`);
   return response.data;
 }
